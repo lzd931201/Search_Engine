@@ -80,8 +80,8 @@
                 <li><a href="#">Lucene</a></li>
             </ul>
     </div>
-      <input type="text" class="form-control">
-        <span class="input-group-btn">
+      <input type="text" class="form-control"id = 'searchBox'>
+        <span class="input-group-btn" >
             <button class="btn btn-default" type="button" id = "SearchButton">Go!</button>
         </span>
     </div>
@@ -91,39 +91,41 @@
     
     
 <div class = "container-fluid Plist" id = "ProductsContainer" ng-controller='appCtrl'>
-    
-    <div class="row" ng-repeat="ps in products track by $index" ng-if="$index%3==0">
-        
-      <div class="item col-lg-4" ng-repeat="i in [$index,$index+1,$index+2]" ng-if="products[i]!=null">
-            <div class="thumbnail">
-                <img class="group list-group-image" src="https://docs.angularjs.org/img/angularjs-for-header-only.svg" />
-                <div class="caption">
-                    <h4 class="group inner list-group-item-heading">
-                        {{products[i].name}}</h4>
-                    <p class="group inner list-group-item-text">
-                        Product description... Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
-                        sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-                    <div class="row">
-                        <div class="col-xs-12 col-md-6">
-                            <p class="lead">
-                                $21.000</p>
-                        </div>
-                        <div class="col-xs-12 col-md-6">
-                            <a class="btn btn-success" onclick ="addItem()">Add to cart</a>
-							<!-- href="{{products[i].Url}}"-->
-							 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    
-   
-    </div>
+	<div class="row">
+	<div class="btn-group" role="group" aria-label="...">
+  		<button type="button" class="btn btn-default" ng-click="setMethod(1)" >Price</button>
+  		<button type="button" class="btn btn-default" ng-click="setMethod(2)">Rate</button>
+  		<button type="button" class="btn btn-default" ng-click="setMethod(3)">Relevance</button>
+	</div>
+	</div>
+	<div class = "container" id = "loading">
+		<div class="loader"></div>
+	</div>
+	
+	<div class="row">
+        <div id="catlist">
+    		<dl ng-show="isMethod(1)" ng-repeat="ps in products | orderBy: '-Price' : reverse">
+				<dt><a href="{{ps.URL}}"><img ng-src="{{ps.Img}}" alt="{{ps.Name}}" width="93" height="62" /></a><strong> Review:{{ps.Rate}} out of 5.0. Price: {{ps.Price}}</strong><a href="{{ps.URL}}">{{ps.Name | limitTo:80}}</a></dt>
+				<dd>
+					<p>{{ps.Detail | limitTo:100}}...</p>
+				</dd>
+			</dl>
+			<dl ng-show="isMethod(2)" ng-repeat="ps in products | orderBy: '-Rate':reverse">
+				<dt><a href="{{ps.URL}}"><img ng-src="{{ps.Img}}" alt="{{ps.Name}}" width="93" height="62" /></a><strong> Review:{{ps.Rate}} out of 5.0. Price: {{ps.Price}}</strong><a href="{{ps.URL}}">{{ps.Name | limitTo:80}}</a></dt>
+				<dd>
+					<p>{{ps.Detail | limitTo:100}}...</p>
+				</dd>
+			</dl>
+			<dl ng-show="isMethod(3)" ng-repeat="ps in products">
+				<dt><a href="{{ps.URL}}"><img ng-src="{{ps.Img}}" alt="{{ps.Name}}" width="93" height="62" /></a><strong> Review:{{ps.Rate}} out of 5.0. Price: {{ps.Price}}</strong><a href="{{ps.URL}}">{{ps.Name | limitTo:80}}</a></dt>
+				<dd>
+					<p>{{ps.Detail | limitTo:100}}..</p>
+				</dd>
+			</dl>
+			<button type="button" class="btn btn-default"id = 'nextPage'>Next Page</button>
+		</div>
+	</div>
 </div><!--content rows-->
 
-    <!-- IMPORTANT: Do not include a weinre script tag as part of your release builds! -->
-    <!-- Place your remote debugging (weinre) script URL from the Test tab here, if it does not work above -->
-    <!-- <script src="http://debug-software.intel.com/target/target-script-min.js#insertabiglongfunkynumberfromthexdkstesttab"></script> -->
 </body>
 </html>
